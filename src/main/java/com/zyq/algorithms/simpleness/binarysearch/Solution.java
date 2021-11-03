@@ -6,34 +6,27 @@ package com.zyq.algorithms.simpleness.binarysearch;
 
 public class Solution {
     public int search(int[] nums, int target) {
-        return getResult(nums, target, 0, nums.length);
+        return getResult(nums, target, 0, nums.length - 1);
     }
 
-    private int getResult(int[] nums, int target, int start, int end) {
-        int center = getCenter(start, end);
-        if (nums[center] == target) {
-            return center;
-        }
-        if (start == end || end - start == 1) {
+    private int getResult(int[] nums, int target, int left, int right) {
+        int mid = left + (right - left) / 2;
+        if (left > right) {
             return -1;
+        }else if (nums[mid] == target) {
+            return mid;
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
         }
-        if (nums[center] > target) {
-            return getResult(nums, target, start, center);
-        }
-        if (nums[center] < target) {
-            return getResult(nums, target, center, end);
-        }
-        return -1;
+        return getResult(nums, target, left, right);
+
     }
 
-    private int getCenter(int start, int end) {
-        int count = end - start;
-        int center = count / 2 + start;
-        return center;
-    }
 
     public static void main(String[] args) {
-        int[] nums = new int[]{-1,0,3,5,9,12};
+        int[] nums = new int[]{-1, 0, 3, 5, 9, 12};
         int target = 9;
         Solution solution = new Solution();
         int search = solution.search(nums, target);
